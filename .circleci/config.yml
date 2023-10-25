@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@20.8.1 # replace orb version
+  node: 14.18.2-bullseye-browsers-legacy # replace orb version
 
 jobs:
   test:

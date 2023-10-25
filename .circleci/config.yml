@@ -9,8 +9,7 @@ workflows:
 
 jobs:
   my-job:
-    docker:
-      - image: ubuntu:latest
+    runs-on: ubuntu:latest
     steps:
       - uses: actions/checkout@v3
       - uses: oven-sh/setup-bun@v1

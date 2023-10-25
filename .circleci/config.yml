@@ -9,9 +9,12 @@ workflows:
 
 jobs:
   my-job:
-    runs-on: ubuntu:latest
+    executor: docker
     steps:
-      - uses: circleci/checkout@2.1
+      - uses: circleci/checkout@v3
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: oven-sh/setup-bun@v1
       - run:
           name: Install bun

@@ -10,7 +10,7 @@ workflows:
 jobs:
   my-job:
     docker:
-      - image: ubuntu:latest
+      - image: cimg/base:2022.05
     steps:
       - uses: circleci/checkout@v3
       - uses: oven-sh/setup-bun@v1

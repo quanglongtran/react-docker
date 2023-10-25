@@ -3,21 +3,9 @@
 version: 2.1
 
 orbs: 
-  bun: oven-sh/setup-bun@v1
+  node: circleci/node@5.1.0
 
 workflows:
   my-workflow:
     jobs:
-      - my-job
-
-jobs:
-  my-job:
-    docker:
-      - image: cimg/base:2022.05
-    steps:
-      - run:
-          name: Install bun
-          command: bun install
-      - run:
-          name: Build
-          command: bun run build
+      - node/test

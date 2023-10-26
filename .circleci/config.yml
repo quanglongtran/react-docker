@@ -2,10 +2,18 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
-orbs: 
-  node: circleci/node@5.1.0
-
 workflows:
   my-workflow:
     jobs:
-      - node/test
+      - test
+
+jobs:
+  test:
+    docker: 
+      - image: node:21-slim
+    steps:
+      - checkout
+      - npm i -g bun
+      - bun install
+      - bun run build
+      - bun run test

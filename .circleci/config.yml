@@ -2,18 +2,45 @@
 # See: https://circleci.com/docs/configuration-reference
 version: 2.1
 
+orbs:
+  docker: circleci/docker@2.4.0
+
 workflows:
   my-workflow:
     jobs:
       - test
+      - build-and-push
+        filters:
+          requires:
+            - test
+          branches:
+            only:
+              - master
 
 jobs:
   test:
-    docker: 
-      - image: node:21-slim
+    docker: node:21-slim
     steps:
       - checkout
       - run: npm i -g bun
       - run: bun install
-      - run: bun run build
       - run: bun run test
+  build-and-push:
+    environment:
+      DOCKER_IMAGE: quanglongtran03/react-docker
+      DOCKER_TAG: latest
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check
+      - docker/build:
+          image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
+      - docker/push:
+          digest-path: /tmp/digest.txt
+          image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"

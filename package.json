@@ -23,7 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "echo Reactjs checking... && react-scripts test --verbose",
-    "lint": "echo Checking eslint... && eslint --max-warnings=0 src",
+    "lint": "eslint --max-warnings=0 src/**/*.{js,jsx}",
     "eject": "react-scripts eject",
     "prettier": "echo Checking prettier... && prettier --check src/**/*.{js,jsx}"
   },

@@ -1,0 +1,50 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/configuration-reference
+version: 2.1
+
+orbs:
+  docker: circleci/docker@2.4.0
+
+workflows:
+  my-workflow:
+    jobs:
+      - test
+      - build-and-push:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+
+jobs:
+  test:
+    docker:
+      - image: node:21-slim
+    steps:
+      - checkout
+      - run: npm i -g bun
+      - run: bun install
+      - run: bun run test
+
+  build-and-push:
+    environment:
+      DOCKER_IMAGE: quanglongtran03/react-docker
+      DOCKER_TAG: latest
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check:
+          docker-username: DOCKER_USER
+          docker-password: DOCKER_PASSWORD
+      - docker/build:
+          image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
+      - docker/push:
+          digest-path: /tmp/digest.txt
+          image: $DOCKER_IMAGE
+          tag: $DOCKER_TAG
+      - run:
+          command: |
+            echo "Digest is: $(</tmp/digest.txt)"

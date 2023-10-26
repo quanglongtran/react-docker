@@ -8,8 +8,8 @@ orbs:
 workflows:
   my-workflow:
     jobs:
-      test
-      build-and-push:
+      - test
+      - build-and-push:
         requires:
           - test
         filters:

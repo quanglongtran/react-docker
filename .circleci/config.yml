@@ -25,24 +25,27 @@ jobs:
       - run: npm i -g bun
       - run: bun install
       - run: bun run test
+
   build-and-push:
     environment:
       DOCKER_IMAGE: quanglongtran03/react-docker
       DOCKER_TAG: latest
+      DOCKER_USER: <your-docker-hub-username>
+      DOCKER_PASSWORD: <your-docker-hub-password>
     executor: docker/docker
     steps:
       - setup_remote_docker
       - checkout
       - docker/check:
-          docker-username: $DOCKER_USER
-          docker-password: $DOCKER_PASSWORD
+        docker-username: $DOCKER_USER
+        docker-password: $DOCKER_PASSWORD
       - docker/build:
-          image: $DOCKER_IMAGE
-          tag: $DOCKER_TAG
+        image: $DOCKER_IMAGE
+        tag: $DOCKER_TAG
       - docker/push:
-          digest-path: /tmp/digest.txt
-          image: $DOCKER_IMAGE
-          tag: $DOCKER_TAG
+        digest-path: /tmp/digest.txt
+        image: $DOCKER_IMAGE
+        tag: $DOCKER_TAG
       - run:
           command: |
             echo "Digest is: $(</tmp/digest.txt)"

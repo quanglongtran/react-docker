@@ -19,6 +19,8 @@ workflows:
 
 jobs:
   test:
+    environment:
+      CI: true
     docker:
       - image: node:21-slim
     steps:
@@ -26,6 +28,8 @@ jobs:
       - run: npm i -g bun
       - run: bun install
       - run: bun run test
+      - run: bun run lint
+      - run: bun run prettier
 
   build-and-push:
     environment:

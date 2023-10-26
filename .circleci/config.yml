@@ -13,7 +13,7 @@ jobs:
       - image: node:21-slim
     steps:
       - checkout
-      - npm i -g bun
-      - bun install
-      - bun run build
-      - bun run test
+      - run: npm i -g bun
+      - run: bun install
+      - run: bun run build
+      - run: bun run test

@@ -9,8 +9,8 @@ workflows:
   my-workflow:
     jobs:
       - test
-      - build-and-push
-        required:
+      - build-and-push:
+        requires:
           - test
         filters:
           branches:

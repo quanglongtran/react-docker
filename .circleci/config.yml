@@ -10,9 +10,9 @@ workflows:
     jobs:
       - test
       - build-and-push
+        requires:
+          - test
         filters:
-          requires:
-            - test
           branches:
             only:
               - master
@@ -33,7 +33,9 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - docker/check
+      - docker/check:
+        docker-username: $DOCKER_USER
+        docker-password: $DOCKER_PASSWORD
       - docker/build:
           image: $DOCKER_IMAGE
           tag: $DOCKER_TAG
